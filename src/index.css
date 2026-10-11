@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-mincho: 'Shippori Mincho', 'Noto Serif JP', serif;
+    --font-brush: 'Yuji Boku', serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+.font-mincho {
+  font-family: var(--font-mincho);
+}
+
+.font-brush {
+  font-family: var(--font-brush);
+}
+
+.font-sans-clean {
+  font-family: var(--font-sans);
+}
+
+/* Washi Paper texture */
+.bg-washi {
+  background-color: #FAF6EE;
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(197, 160, 89, 0.05) 0%, transparent 25%),
+    radial-gradient(circle at 85% 80%, rgba(138, 92, 53, 0.04) 0%, transparent 30%),
+    linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.02) 100%);
+}
+
+.bg-washi-card {
+  background-color: #FDFBF7;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(197, 61, 50, 0.015) 0%, transparent 80%);
+}
+
+.nihonga-shadow {
+  box-shadow: 
+    0 2px 4px rgba(44, 40, 37, 0.04),
+    0 6px 16px rgba(44, 40, 37, 0.06);
+}
+
+.nihonga-border {
+  border: 1px solid rgba(85, 75, 65, 0.14);
+}
+
+/* 3D Flip Card support */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(240, 235, 225, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(138, 120, 100, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(138, 120, 100, 0.5);
+}

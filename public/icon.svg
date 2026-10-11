@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Authentic Torinoko Washi Paper Gradient (Traditional Nihonga Base) -->
+    <radialGradient id="torinokoWashi" cx="42%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#FCF9F2"/>
+      <stop offset="50%" stop-color="#F4EADB"/>
+      <stop offset="85%" stop-color="#E8D9C2"/>
+      <stop offset="100%" stop-color="#DAC7AD"/>
+    </radialGradient>
+
+    <!-- Classical Kinpaku (Hand-applied Gold Leaf) Texture Gradient -->
+    <linearGradient id="kinpakuGold" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#DFB14E" stop-opacity="0.85"/>
+      <stop offset="30%" stop-color="#F2D179" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#C79634" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#8F6317" stop-opacity="0.7"/>
+    </linearGradient>
+
+    <!-- Secondary Soft Mineral Mist (Iwa-enogu) -->
+    <linearGradient id="iwaEnoguMist" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C9B498" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#E2D4BE" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Deep Carbon Sumi Ink (Pine Soot Ink / Shoen-boku) -->
+    <linearGradient id="shoenSumi" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E1A17"/>
+      <stop offset="100%" stop-color="#2D2722"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Handmade Torinoko Washi Base -->
+  <rect width="512" height="512" rx="108" fill="url(#torinokoWashi)"/>
+
+  <!-- Delicate Traditional Double Gold Leaf Border (Byobu Frame Line) -->
+  <rect x="22" y="22" width="468" height="468" rx="88" fill="none" stroke="#C79634" stroke-width="2.5" stroke-opacity="0.45"/>
+  <rect x="28" y="28" width="456" height="456" rx="82" fill="none" stroke="#7A6855" stroke-width="1" stroke-opacity="0.25"/>
+
+  <!-- Classical Nihonga Kin'un (Traditional Scalloped Gold Cloud Bands) -->
+  <!-- Upper Kin'un Stream -->
+  <path d="M 28,155 C 65,115 110,130 155,105 C 205,78 260,118 315,88 C 365,62 420,95 484,65 L 484,28 L 28,28 Z" 
+        fill="url(#kinpakuGold)" opacity="0.42"/>
+  
+  <!-- Subtle Internal Gold Cloud Rhythms -->
+  <path d="M 28,130 C 85,95 140,115 195,85 C 255,55 315,90 380,68 C 430,50 460,65 484,55 L 484,28 L 28,28 Z" 
+        fill="#DFB14E" opacity="0.25"/>
+
+  <!-- Lower Atmospheric Mist & Gold Leaf Drift -->
+  <path d="M 28,380 C 95,410 165,375 235,405 C 305,435 375,395 440,425 C 460,435 475,428 484,435 L 484,484 L 28,484 Z" 
+        fill="url(#kinpakuGold)" opacity="0.32"/>
+  <rect width="512" height="512" rx="108" fill="url(#iwaEnoguMist)"/>
+
+  <!-- Pure, Dignified Nihonga Typography: ONLY "Gana Katakana!" -->
+  <!-- Refined classical Mincho typography, majestic spatial harmony -->
+  <g id="app-title">
+    <!-- "Gana" -->
+    <text x="256" y="228" 
+          font-family="'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif" 
+          font-weight="800" 
+          font-size="80" 
+          text-anchor="middle" 
+          fill="url(#shoenSumi)" 
+          letter-spacing="2">Gana</text>
+    
+    <!-- "Katakana!" -->
+    <text x="256" y="318" 
+          font-family="'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif" 
+          font-weight="800" 
+          font-size="58" 
+          text-anchor="middle" 
+          fill="url(#shoenSumi)" 
+          letter-spacing="1">Katakana!</text>
+  </g>
+
+  <!-- Elegant Wabi-Sabi Horizontal Ink Divider Accent -->
+  <line x1="186" y1="250" x2="326" y2="250" stroke="#8C7355" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <circle cx="256" cy="250" r="3" fill="#C79634" opacity="0.85"/>
+</svg>

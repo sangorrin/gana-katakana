@@ -1,0 +1,6 @@
+{
+  "name": "Gana Katakana!",
+  "description": "Aprende el silabario japonés Katakana con estética tradicional Nihonga, orden de trazos, audios bilingües y flashcards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
