@@ -30,6 +30,7 @@ export const DetailsMode: React.FC<Props> = ({
     const nextCount = Math.min(5, currentCount + 1);
     onUpdateCounter(item.id, nextCount);
     setSelectedItem(item);
+    soundEngine.playKana(item.kana, `detail_enter_${item.id}`);
   };
 
   const handlePlayWord = (example: ExampleWord) => {

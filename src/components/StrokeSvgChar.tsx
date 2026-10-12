@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-
-const svgCache = new Map<string, string>();
+import React from 'react';
+import { KATAKANA_SVG_MAP } from '../data/katakanaSvgMap';
 
 interface Props {
   char: string;
@@ -15,44 +14,9 @@ export const StrokeSvgChar: React.FC<Props> = ({
   animKey = 0,
   delayOffsetSeconds = 0,
 }) => {
-  const [svgHtml, setSvgHtml] = useState<string | null>(svgCache.get(char) || null);
-  const [error, setError] = useState(false);
+  const svgHtml = KATAKANA_SVG_MAP[char];
 
-  useEffect(() => {
-    if (svgCache.has(char)) {
-      setSvgHtml(svgCache.get(char)!);
-      return;
-    }
-
-    let isMounted = true;
-    const url = `/strokes/katakana/${encodeURIComponent(char)}.svg`;
-
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.text();
-      })
-      .then((svgText) => {
-        // Strip out any redundant xml headers if present, keep pure svg
-        const cleaned = svgText.replace(/<\?xml.*?\?>/i, '').trim();
-        svgCache.set(char, cleaned);
-        if (isMounted) {
-          setSvgHtml(cleaned);
-          setError(false);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setError(true);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [char]);
-
-  if (error || !svgHtml) {
+  if (!svgHtml) {
     return (
       <div className={`flex items-center justify-center ${className}`}>
         <span className="font-brush text-5xl text-[#2C241E] leading-none select-none">
