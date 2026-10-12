@@ -45,6 +45,7 @@
   },
   "optionalDependencies": {
     "@rolldown/binding-darwin-arm64": "^1.2.13",
+    "@tailwindcss/oxide-darwin-arm64": "^4.3.3",
     "lightningcss-darwin-arm64": "^1.32.0"
   }
 }
