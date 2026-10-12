@@ -647,7 +647,7 @@ export const DIPTONGOS_LIST: KatakanaItem[] = [
     rowIndex: 1,
     colIndex: 2,
     examples: [
-      { word: '東京（トキョウ）', romaji: 'tokyou', spanish: 'Tokio', highlightKana: 'キョ', iconType: 'building' },
+      { word: 'キョウリュウ', romaji: 'kyouryuu', spanish: 'Dinosaurio', highlightKana: 'キョ', iconType: 'monster' },
       { word: 'キョロキョロ', romaji: 'kyorokyoro', spanish: 'Mirar con curiosidad', highlightKana: 'キョ', iconType: 'search' },
     ],
   },
@@ -1279,7 +1279,7 @@ export const DAKUTEN_LIST: KatakanaItem[] = [
     colIndex: 1,
     examples: [
       { word: 'ギューギュー', romaji: 'gyuugyuu', spanish: 'Apretado / Abarrotado', highlightKana: 'ギュ', iconType: 'box' },
-      { word: 'ギュッと', romaji: 'gyutto', spanish: 'Con fuerza / Abrazo', highlightKana: 'ギュ', iconType: 'heart' },
+      { word: 'ギュッ', romaji: 'gyu', spanish: 'Apretón / Con fuerza', highlightKana: 'ギュ', iconType: 'heart' },
     ],
   },
   {
@@ -1293,7 +1293,7 @@ export const DAKUTEN_LIST: KatakanaItem[] = [
     colIndex: 2,
     examples: [
       { word: 'ギョーザ', romaji: 'gyooza', spanish: 'Empanadillas gyoza', highlightKana: 'ギョ', iconType: 'food' },
-      { word: 'ギョッとする', romaji: 'gyottosuru', spanish: 'Sobresaltarse', highlightKana: 'ギョ', iconType: 'sparkles' },
+      { word: 'ギョッ', romaji: 'gyo', spanish: 'Sobresalto / Susto', highlightKana: 'ギョ', iconType: 'sparkles' },
     ],
   },
   {
@@ -1376,7 +1376,7 @@ export const DAKUTEN_LIST: KatakanaItem[] = [
     rowIndex: 5,
     colIndex: 2,
     examples: [
-      { word: 'ビョウイン（病院）', romaji: 'byouin', spanish: 'Hospital', highlightKana: 'ビョ', iconType: 'hospital' },
+      { word: 'ビョウブ', romaji: 'byoubu', spanish: 'Biombo decorativo', highlightKana: 'ビョ', iconType: 'art' },
       { word: 'ビョウ', romaji: 'byou', spanish: 'Segundo (tiempo)', highlightKana: 'ビョ', iconType: 'clock' },
     ],
   },
@@ -1687,7 +1687,7 @@ export const EXTRANJERO_LIST: KatakanaItem[] = [
     colIndex: 3,
     examples: [
       { word: 'ジェラート', romaji: 'jeraato', spanish: 'Helado italiano', highlightKana: 'ジェ', iconType: 'icecream' },
-      { word: 'ジェット機', romaji: 'jettoki', spanish: 'Avión a reacción / Jet', highlightKana: 'ジェ', iconType: 'rocket' },
+      { word: 'ジェット', romaji: 'jetto', spanish: 'Avión a reacción / Jet', highlightKana: 'ジェ', iconType: 'rocket' },
     ],
   },
 ];

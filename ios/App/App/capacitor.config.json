@@ -1,9 +1,0 @@
-{
-	"appId": "com.ganakatakana.app",
-	"appName": "Gana Katakana!",
-	"webDir": "dist",
-	"server": {
-		"androidScheme": "https"
-	},
-	"packageClassList": []
-}
