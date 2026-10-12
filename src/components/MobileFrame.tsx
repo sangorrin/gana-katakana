@@ -17,8 +17,8 @@ export const MobileFrame: React.FC<Props> = ({ children }) => {
 
   if (isNative) {
     return (
-      <div className="min-h-screen bg-washi text-[#2C241E] flex flex-col selection:bg-[#E8DCC8]">
-        <div className="w-full max-w-2xl mx-auto px-3 sm:px-4 py-2 sm:py-4 flex-1 flex flex-col">
+      <div className="min-h-screen bg-washi text-[#2C241E] flex flex-col selection:bg-[#E8DCC8] pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),16px)]">
+        <div className="w-full max-w-2xl mx-auto px-3 sm:px-4 py-1 sm:py-2 flex-1 flex flex-col">
           {children}
         </div>
       </div>

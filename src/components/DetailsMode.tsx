@@ -209,7 +209,7 @@ export const DetailsMode: React.FC<Props> = ({
               : 'text-[#6B5E52] hover:text-[#2C241E]'
           }`}
         >
-          Katakana
+          Seion
         </button>
 
         <button

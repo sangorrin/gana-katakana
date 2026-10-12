@@ -33,20 +33,30 @@ export const StrokeOrderViewer: React.FC<Props> = ({
   const char2Delay = char1Strokes * 0.55;
 
   return (
-    <div className="flex flex-col items-center">
-      {/* Container with Character Frame and Speaker button placed to the RIGHT of animated strokes */}
-      <div className="flex items-center justify-center gap-3">
-        {/* Character Frame: touchable to pronounce and re-animate strokes */}
+    <div className="relative w-full flex flex-col items-center">
+      {/* Botón de altavoz ubicado en la esquina superior derecha del contenedor */}
+      <button
+        type="button"
+        onClick={handlePlaySound}
+        className="absolute top-0 right-0 sm:right-1 w-9 h-9 rounded-xl bg-white/95 nihonga-border nihonga-shadow flex items-center justify-center text-[#C53D32] hover:bg-[#FAF6EE] hover:border-[#C53D32]/50 active:scale-90 transition-all cursor-pointer shadow-xs group z-20"
+        title="Escuchar pronunciación"
+        aria-label="Escuchar pronunciación"
+      >
+        <Volume2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
+      </button>
+
+      {/* Caja de animación de trazos perfectamente centrada */}
+      <div className="flex items-center justify-center">
         <button
           type="button"
           onClick={handlePlaySound}
           className="relative flex items-center justify-center p-4 bg-white/95 rounded-2xl nihonga-border nihonga-shadow cursor-pointer active:scale-95 transition-transform hover:border-[#C53D32]/50 group"
           title="Toca para escuchar pronunciación y ver orden de trazo"
         >
-          {/* Paper texture overlay inside frame */}
+          {/* Trama de papel washi en el fondo */}
           <div className="absolute inset-0 pointer-events-none opacity-15 bg-[linear-gradient(to_right,#C89E68_1px,transparent_1px),linear-gradient(to_bottom,#C89E68_1px,transparent_1px)] bg-[size:16px_16px] rounded-2xl" />
 
-          {/* Local StrokeSVG Vector Animation container */}
+          {/* Animación vectorial StrokeSVG centrada */}
           <div className="relative z-10 flex items-end justify-center leading-none gap-0 p-0 m-0">
             <StrokeSvgChar
               char={char1}
@@ -65,20 +75,9 @@ export const StrokeOrderViewer: React.FC<Props> = ({
             )}
           </div>
         </button>
-
-        {/* Speaker Button to the RIGHT of the animated strokes */}
-        <button
-          type="button"
-          onClick={handlePlaySound}
-          className="w-12 h-12 rounded-2xl bg-white/95 nihonga-border nihonga-shadow flex items-center justify-center text-[#C53D32] hover:bg-[#FAF6EE] hover:border-[#C53D32]/50 active:scale-90 transition-all cursor-pointer shadow-xs group"
-          title="Escuchar pronunciación"
-          aria-label="Escuchar pronunciación"
-        >
-          <Volume2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
-        </button>
       </div>
 
-      {/* Romaji below */}
+      {/* Romaji centrado debajo */}
       <div className="mt-3 flex items-center justify-center">
         <span className="font-mincho text-2xl font-bold tracking-wider text-[#2A2420]">
           {romaji}

@@ -6,7 +6,7 @@ export const LegalModals: React.FC = () => {
 
   return (
     <>
-      {/* Footer trigger links (comfortably inside the mobile scroll area) */}
+      {/* Footer trigger links */}
       <footer className="mt-6 mb-3 pt-3 border-t border-[#7A6B5B]/20 text-center text-[10px] text-[#8C7A68]">
         <div className="flex items-center justify-center gap-2">
           <button
@@ -22,15 +22,15 @@ export const LegalModals: React.FC = () => {
             onClick={() => setOpenModal('terms')}
             className="hover:text-[#C53D32] transition-colors underline decoration-dotted underline-offset-2 cursor-pointer"
           >
-            Términos y Privacidad (España)
+            Términos y Privacidad
           </button>
         </div>
         <p className="mt-1 text-[9px] text-[#A69989]">
-          Gana Katakana! © 2026 · Proyecto educativo tradicional Nihonga
+          Gana Katakana! © 2026
         </p>
       </footer>
 
-      {/* In-app Modal Dialog (anchored neatly inside the mobile screen container) */}
+      {/* In-app Modal Dialog */}
       {openModal && (
         <div className="absolute inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-xs animate-fadeIn">
           <div className="relative w-full max-w-[360px] max-h-[85%] overflow-y-auto bg-[#FAF6EE] rounded-2xl nihonga-border nihonga-shadow p-4 text-[#2C241E]">
@@ -53,19 +53,19 @@ export const LegalModals: React.FC = () => {
 
                 <div className="space-y-2.5 text-xs leading-relaxed text-[#5C4F43]">
                   <div>
-                    <h4 className="font-bold text-[#2C241E]">1. Animaciones de Trazos (StrokeSVG)</h4>
+                    <h4 className="font-bold text-[#2C241E]">1. Código de la Aplicación</h4>
+                    <p className="mt-0.5 text-[11px]">
+                      Publicado bajo la Licencia de Software Libre MIT para fines educativos y de autoaprendizaje.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-[#2C241E]">2. Animaciones de Trazos (StrokeSVG)</h4>
                     <p className="mt-0.5 text-[11px]">
                       Los diagramas animados de trazo vectorial proceden del proyecto de código abierto <span className="font-semibold">StrokeSVG</span> (por Kyle Zheng), basados en la tipografía caligráfica <span className="font-semibold">Klee One</span> de Fontworks Inc.
                     </p>
                     <p className="mt-0.5 text-[10px] text-[#7A6B5B]">
                       Licencia: SIL Open Font License 1.1 (OFL) y Licencia MIT.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-bold text-[#2C241E]">2. Código de la Aplicación</h4>
-                    <p className="mt-0.5 text-[11px]">
-                      Publicado bajo la Licencia de Software Libre MIT para fines educativos y de autoaprendizaje.
                     </p>
                   </div>
 
@@ -93,28 +93,21 @@ export const LegalModals: React.FC = () => {
               <div className="space-y-3 pt-1">
                 <div className="flex items-center gap-2 border-b border-[#7A6B5B]/20 pb-2">
                   <ShieldCheck className="w-4 h-4 text-[#274A78]" />
-                  <h3 className="font-mincho text-base font-bold">Términos y Privacidad (España)</h3>
+                  <h3 className="font-mincho text-base font-bold">Términos y Privacidad</h3>
                 </div>
 
                 <div className="space-y-2.5 text-xs leading-relaxed text-[#5C4F43]">
                   <div>
                     <h4 className="font-bold text-[#2C241E]">1. Aviso Legal</h4>
                     <p className="mt-0.5 text-[11px]">
-                      Herramienta didáctica interactiva orientada al aprendizaje del silabario japonés sin fines de lucro comercial (LSSI-CE).
+                      Herramienta didáctica interactiva orientada al aprendizaje del silabario japonés sin fines de lucro comercial.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-bold text-[#2C241E]">2. Privacidad y Datos (RGPD)</h4>
                     <p className="mt-0.5 text-[11px]">
-                      La aplicación no requiere registro ni recopila datos personales. El progreso de práctica y contadores se almacenan únicamente de forma local en tu navegador (<code>localStorage</code>).
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-bold text-[#2C241E]">3. Audio y Síntesis</h4>
-                    <p className="mt-0.5 text-[11px]">
-                      Las pronunciaciones se generan mediante modelos avanzados de síntesis de voz japonesa y reproducción directa en el navegador.
+                      La aplicación no requiere registro ni recopila datos personales. El progreso de práctica y contadores se almacenan únicamente de forma local en tu dispositivo (<code>localStorage</code>).
                     </p>
                   </div>
                 </div>
