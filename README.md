@@ -1,76 +1,111 @@
 # Gana Katakana! (ガナカタカナ)
 
-Una aplicación web progresiva (PWA) moderna, táctil y artesanal inspirada en la pintura tradicional japonesa (*Nihonga*) para aprender y dominar el silabario Katakana completo.
+Una aplicación progresiva (PWA y móvil nativa) táctil, moderna y artesanal inspirada en la pintura tradicional japonesa (*Nihonga*) para aprender y dominar el silabario Katakana completo.
 
 ![Licencia](https://img.shields.io/badge/licencia-MIT-blue.svg)
 ![React](https://img.shields.io/badge/React-19-61dafb.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-7-3178c6.svg)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-38bdf8.svg)
+![Capacitor](https://img.shields.io/badge/Capacitor-8-119EFF.svg)
 
 ---
 
-## 🌸 Características
+## 🌸 Características Principales
 
-- **100% Estática y Autónoma (Offline-First):**
-  - No realiza **ninguna llamada a servidores o APIs externas** en tiempo de ejecución.
-  - Tanto los audios nativos en voz femenina y masculina como las animaciones vectoriales de trazos se sirven desde archivos locales en el propio dispositivo.
+- **100% Autónoma y Sin Conexión (Offline-First):**
+  - No realiza llamadas a servidores ni APIs externas durante su uso.
+  - Los audios nativos y las animaciones vectoriales de trazos se sirven desde archivos locales en el propio dispositivo o empaquetados en memoria.
 - **Tablas Completas de Katakana:**
   - **Katakana Básico (Seion):** 46 caracteres fundamentales divididos por filas vocálicas y consonánticas.
   - **Diptongos (Youon):** 33 combinaciones de caracteres pequeños (キャ, シャ, チャ, etc.).
   - **Acentos (Dakuten y Handakuten):** 20 sonidos sonoros (ガ, ザ, ダ, バ) y 5 sordos (パ, ピ, プ, ペ, ポ).
   - **Katakana Moderno / Extranjero:** 17 combinaciones para préstamos occidentales (ティ, シェ, ファ, etc.).
+- **Vocabulario 100% Katakana Puro:**
+  - 242 palabras de ejemplo auditadas sin kanjis ni mezclas con hiragana.
 - **Modos de Estudio Especializados:**
   - **Modo Sonidos:** Tabla interactiva táctil con audio nativo instantáneo y rastreo de práctica por niveles (1 al 5).
-  - **Modo Detalles:** Animaciones de orden de trazo vectoriales (*StrokeSVG*) 100% locales y vocabulario de ejemplo real en japonés con romaji y traducción al español.
-  - **Modo Flashcards:** Tarjetas interactivas con vuelta 3D suave, filtros por categoría (incluyendo mazo completo de 231 palabras), y control de dominio.
-- **Animaciones de Trazo Locales (StrokeSVG):**
+  - **Modo Detalles:** Animaciones de orden de trazo vectoriales (*StrokeSVG*) instantáneas y sin parpadeos, reproducción automática de locución y vocabulario interactivo.
+  - **Modo Flashcards:** Tarjetas interactivas con giro 3D suave, filtros por categoría (incluyendo mazo completo de 231 palabras) y control de dominio.
+- **Animaciones de Trazo Locales Síncronas (StrokeSVG):**
   - Basadas en la tipografía caligráfica **Klee One**.
-  - Todos los archivos SVG están almacenados localmente en la app (`public/strokes/katakana/`), sin descargas externas en tiempo de ejecución.
-  - Soporte completo para **Dakuten y Handakuten** (trazos animados tanto del carácter base como de las comillas/círculo).
-  - **Trazado Secuencial en Youon:** En combinaciones dobles (p. ej. `シ` + `ュ`), el primer carácter completa todos sus trazos antes de que comience el segundo, respetando el orden real de escritura japonés.
-  - Perfecta alineación vectorial en combinaciones Youon (sin fondos blancos ni artefactos de imagen).
-- **Motor de Audio Sprite Nativo:**
-  - Locución en dos voces japonesas (*femenina y masculina*) que se alternan en cada pulsación.
-  - Cero latencia y reproducción instantánea basada en Web Audio API con marcas de tiempo exactas (`sprite_map.json`).
-  - Audio sin cortes ni transformaciones destructivas de tono.
+  - Los 81 gráficos vectoriales están pre-empaquetados en memoria (`src/data/katakanaSvgMap.ts`), eliminando cualquier parpadeo de carga.
+  - Soporte completo para **Dakuten y Handakuten** (trazos animados tanto del carácter base como de las comillas o círculo).
+  - **Trazado Secuencial en Youon:** En combinaciones dobles (p. ej. `シ` + `ュ`), el primer carácter completa todos sus trazos antes de que comience el segundo, respetando el orden caligráfico real.
+- **Motor de Audio Sprite Nativo Dual:**
+  - **Voz Femenina:** Locución de alta claridad en japonés nativo.
+  - **Voz Masculina Neuronal:** Locución profunda y cálida sintetizada mediante red neuronal con **VOICEVOX (青山龍星 - Aoyama Ryusei)**.
+  - Cero latencia basada en Web Audio API con mapas de marcas de tiempo exactas (`sprite_map.json`).
 - **Estética Tradicional Nihonga:**
   - Paleta cromática basada en pigmentos minerales japoneses (*Iwa-enogu*): Gunjo (lapislázuli), Shu (bermellón), Byakuroku (malaquita pálida), Rokusho, Yamabuki, etc.
-  - Fondo con textura de papel artesanal *Torinoko Washi* y nubes doradas flotantes (*Kin'un / Kinpaku*).
+  - Textura sutil de papel artesanal *Torinoko Washi* y nubes doradas flotantes (*Kin'un / Kinpaku*).
 - **Compatibilidad Multiplataforma (Web, Android, iPhone, iPad):**
-  - **PWA (Progressive Web App):** Instalable directamente desde el navegador en Android, iPhone, iPad y ordenadores con soporte offline completo.
-  - **Capacitor Mobile:** Proyectos nativos listos para compilar en Android Studio (Android APK) y Xcode (iPhone y iPad).
+  - **PWA (Progressive Web App):** Instalable directamente desde el navegador en cualquier sistema operativo.
+  - **Capacitor Mobile:** Proyectos nativos configurados para compilar APK para Android y paquete universal para iOS (iPhone e iPad).
+
+---
+
+## 📦 Cómo Crear una Release en GitHub y Descargar los Binarios
+
+El repositorio cuenta con integración continua configurada para generar automáticamente todos los ejecutables cuando creas una **Release** en GitHub:
+
+### Paso 1: Crear la Release en GitHub
+1. Ve a la página de tu repositorio en GitHub.
+2. En la barra lateral derecha, haz clic en **Releases** (o añade `/releases` a la URL del repositorio).
+3. Haz clic en el botón **Draft a new release**.
+4. Haz clic en **Choose a tag**:
+   - Escribe el identificador de versión (por ejemplo: `v1.0.0`).
+   - Haz clic en **Create new tag: v1.0.0 on publish**.
+5. Asigna un título a la versión (por ejemplo: `Gana Katakana! v1.0.0`).
+
+### Paso 2: Generar la sección "What's Changed"
+- En la esquina superior derecha del cuadro de texto de la descripción, pulsa el botón **Generate release notes**.
+- GitHub rellenará automáticamente la sección **What's Changed** con la lista de commits, mejoras y contribuciones desde la versión anterior.
+
+### Paso 3: Publicar la Release
+- Haz clic en el botón verde **Publish release**.
+
+### Paso 4: Descarga Automática de Binarios
+En cuanto se publica la Release, GitHub Actions ejecuta automáticamente los flujos de compilación en paralelo:
+- **`build-android` (Ubuntu + Java JDK 21 + Android SDK 36):** Compila el APK de depuración.
+- **`build-ios` (macOS + Xcode + Swift Package Manager):** Compila el archivo IPA y el paquete de la app.
+
+Al cabo de unos minutos, dentro de la sección **Assets** de esa misma Release encontrarás:
+
+| Archivo | Plataforma | Descripción |
+| :--- | :--- | :--- |
+| **`GanaKatakana-android-debug.apk`** | Android | APK instalable directamente en cualquier dispositivo o emulador Android. |
+| **`GanaKatakana-ios-unsigned.ipa`** | iOS (iPhone / iPad) | Paquete IPA listo para instalar con herramientas como AltStore, Sideloadly o TrollStore. |
+| **`GanaKatakana-ios-app.zip`** | iOS | Paquete de la aplicación `.app` para simuladores o archivado en Xcode. |
+| **`Source code (zip)`** | Multiplataforma | Código fuente comprimido generado automáticamente por GitHub. |
+| **`Source code (tar.gz)`** | Multiplataforma | Código fuente en tarball generado automáticamente por GitHub. |
 
 ---
 
 ## 🛠️ Tecnologías
 
 - **Frontend:** React 19, TypeScript, Vite.
-- **Estilos:** Tailwind CSS v4 con tipografías japonesas (Klee One / Yuji Boku para trazos caligráficos, Shippori Mincho para lectura).
+- **Estilos:** Tailwind CSS v4 con tipografías japonesas (Klee One / Shippori Mincho).
 - **Audio:** Web Audio API con AudioBuffer Sprites (`sprite_female.mp3`, `sprite_male.mp3`).
 - **Trazos:** Vector SVGs locales con animación CSS basada en StrokeSVG / Klee One.
-- **Iconos:** Lucide Icons.
+- **Móvil:** Capacitor 8 (Android Gradle 8.14 con JDK 21, iOS Xcode con Swift Package Manager).
 
 ---
 
-## 🚀 Scripts y Flujo de Compilación
+## 🚀 Desarrollo y Compilación Local
 
-### ¿Qué hace `npm run build`?
-`npm run build` ejecuta el compilador de **Vite** para generar la aplicación web optimizada y empaquetada dentro de la carpeta `dist/` (HTML, JavaScript minificado, CSS y recursos estáticos).
-> **Nota:** `npm run build` **NO** genera directamente el archivo `.apk` de Android ni el `.ipa` de iOS. Para empaquetar las apps nativas se utilizan las herramientas de Capacitor o las GitHub Actions automatizadas.
-
-### 1. Desarrollo Local
+### Desarrollo
 ```bash
 npm run dev
 ```
-Inicia el servidor de desarrollo en `http://localhost:3000`.
+Inicia el servidor local en `http://localhost:3000`.
 
-### 2. Compilación Web de Producción
+### Compilación Web
 ```bash
 npm run build
 ```
-Genera la versión optimizada en la carpeta `dist/`.
+Genera los archivos estáticos en la carpeta `dist/`.
 
-### 3. Sincronización con Android e iOS
+### Sincronización Móvil
 ```bash
 # Sincronizar ambas plataformas
 npm run cap:sync
@@ -82,45 +117,9 @@ npm run cap:sync:ios
 
 ---
 
-## 🤖 Compilación Automatizada en GitHub Actions
-
-El repositorio incluye dos flujos de trabajo (*workflows*) automatizados que se disparan cada vez que publicas una **Release** en GitHub (o manualmente desde la pestaña *Actions*):
-
-### 1. Build Android APK (`.github/workflows/build-android.yml`)
-- Se ejecuta en un entorno `ubuntu-latest` con Java JDK 17 y Android SDK.
-- Compila automáticamente el archivo `GanaKatakana-android-debug.apk`.
-- Guarda el archivo APK como **Artifact** descargable de la acción durante 30 días.
-- Adjunta automáticamente el archivo `.apk` a los ficheros descargables de la **GitHub Release**.
-
-### 2. Build iOS App (iPhone y iPad) (`.github/workflows/build-ios.yml`)
-- Se ejecuta en un entorno `macos-latest` con Xcode y el SDK de iOS.
-- Compila el proyecto Xcode universal para iPhone y iPad sin requerir certificados de pago previos (`CODE_SIGNING_ALLOWED=NO`).
-- Empaqueta dos formatos:
-  - `GanaKatakana-ios-unsigned.ipa`: Paquete IPA estándar para instalación mediante herramientas como AltStore, Sideloadly o TrollStore.
-  - `GanaKatakana-ios-app.zip`: Paquete `.app` para simuladores o archivado.
-- Guarda ambos archivos como **Artifacts** descargables de la acción durante 30 días y los adjunta automáticamente a la **GitHub Release**.
-
----
-
-## 📱 ¿Cómo instalar la App para iPhone y iPad?
-
-### Opción A: Como App PWA Directa (Sin Mac / Sin App Store)
-La aplicación ya está configurada como una Progressive Web App (PWA) de nivel de producción:
-1. Abre la URL de la app en **Safari** desde un iPhone o un iPad.
-2. Pulsa el botón **Compartir** (icono de cuadrado con flecha hacia arriba).
-3. Selecciona **«Añadir a la pantalla de inicio»** (*Add to Home Screen*).
-4. La app se instalará con su icono oficial, pantalla de carga y se ejecutará a pantalla completa sin barras de navegador, con soporte sin conexión (*offline*).
-
-### Opción B: A través de la Release de GitHub (IPA)
-1. Descarga el archivo `GanaKatakana-ios-unsigned.ipa` generado por la GitHub Action de la Release.
-2. Fírmalo e instálalo en tu iPhone o iPad usando herramientas gratuitas como AltStore, Sideloadly o Xcode.
-
----
-
 ## 📄 Licencias y Atribución
 
-Este proyecto combina recursos de código abierto de acuerdo con sus respectivas licencias (ver [LICENSE.md](LICENSE.md)):
-
-1. **Código de la aplicación:** Distribuido bajo la [Licencia MIT](LICENSE.md).
-2. **Animaciones de trazos:** Proyecto [StrokeSVG](https://github.com/zhengkyl/strokesvg) de Kyle Zheng (Licencia MIT).
-3. **Glifos y formas caligráficas:** Tipografía [Klee One](https://github.com/fontworks-fonts/Klee) de Fontworks Inc., bajo la licencia abierta [SIL Open Font License 1.1 (OFL)](LICENSE.md).
+- **Código de la aplicación:** [Licencia MIT](LICENSE.md).
+- **Animaciones de trazos:** Proyecto [StrokeSVG](https://github.com/zhengkyl/strokesvg) de Kyle Zheng (Licencia MIT).
+- **Glifos y formas caligráficas:** Tipografía [Klee One](https://github.com/fontworks-fonts/Klee) de Fontworks Inc. ([SIL Open Font License 1.1](LICENSE.md)).
+- **Locución masculina:** Sintetizada con [VOICEVOX: 青山龍星](https://voicevox.hiroshiba.jp/).

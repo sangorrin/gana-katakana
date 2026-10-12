@@ -87,7 +87,7 @@ export default function App() {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 pt-4">
+        <main className="flex-1 pt-3 sm:pt-4">
           {currentMode === 'sounds' && (
             <SoundsMode
               counters={soundsCounters}
