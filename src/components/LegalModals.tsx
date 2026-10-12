@@ -53,12 +53,12 @@ export const LegalModals: React.FC = () => {
 
                 <div className="space-y-2.5 text-xs leading-relaxed text-[#5C4F43]">
                   <div>
-                    <h4 className="font-bold text-[#2C241E]">1. Animaciones de Trazos Wikimedia</h4>
+                    <h4 className="font-bold text-[#2C241E]">1. Animaciones de Trazos (StrokeSVG)</h4>
                     <p className="mt-0.5 text-[11px]">
-                      Las animaciones provienen del catálogo oficial de <span className="font-semibold">Wikimedia Commons</span> (<em>Category: Katakana stroke order animated image set</em>).
+                      Los diagramas animados de trazo vectorial proceden del proyecto de código abierto <span className="font-semibold">StrokeSVG</span> (por Kyle Zheng), basados en la tipografía caligráfica <span className="font-semibold">Klee One</span> de Fontworks Inc.
                     </p>
                     <p className="mt-0.5 text-[10px] text-[#7A6B5B]">
-                      Licencia: Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) y GFDL.
+                      Licencia: SIL Open Font License 1.1 (OFL) y Licencia MIT.
                     </p>
                   </div>
 
@@ -72,7 +72,7 @@ export const LegalModals: React.FC = () => {
                   <div>
                     <h4 className="font-bold text-[#2C241E]">3. Tipografías</h4>
                     <p className="mt-0.5 text-[11px]">
-                      Shippori Mincho y Plus Jakarta Sans bajo licencia abierta SIL Open Font License.
+                      Klee One, Shippori Mincho y Plus Jakarta Sans bajo licencia abierta SIL Open Font License (OFL).
                     </p>
                   </div>
                 </div>

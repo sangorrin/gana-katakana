@@ -78,3 +78,30 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(138, 120, 100, 0.5);
 }
+
+/* Local StrokeSVG animatable stroke order */
+svg[data-strokesvg] {
+  --shadow: rgba(122, 107, 91, 0.18);
+  --stroke: #2C241E;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+svg[data-strokesvg] > g[data-strokesvg="strokes"] > * {
+  --time: 0.6s;
+  --gap: 0.55s;
+  --delay: 0.1s;
+  animation: strokesvg-draw var(--time) cubic-bezier(0.4, 0, 0.2, 1) forwards calc(
+      var(--i) * var(--gap) + var(--delay) + var(--delay-offset, 0s)
+    );
+  stroke-dasharray: 3333;
+  stroke-dashoffset: 3333;
+}
+
+@keyframes strokesvg-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+

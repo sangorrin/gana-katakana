@@ -1,6 +1,7 @@
 /**
- * Stroke order animation helpers for Wikimedia Commons Katakana animation set.
- * Category: https://commons.wikimedia.org/wiki/Category:Katakana_stroke_order_(animated_image_set)
+ * Stroke order animation helpers for local StrokeSVG Katakana vector set.
+ * Based on StrokeSVG (Kyle Zheng) and Klee One (Fontworks Inc.).
+ * Project: https://github.com/zhengkyl/strokesvg
  */
 
 export const KATAKANA_STROKE_COUNTS: Record<string, number> = {
@@ -21,34 +22,17 @@ export const KATAKANA_STROKE_COUNTS: Record<string, number> = {
   'パ': 3, 'ピ': 3, 'プ': 2, 'ペ': 2, 'ポ': 5,
   'ァ': 2, 'ィ': 2, 'ゥ': 3, 'ェ': 3, 'ォ': 3,
   'ャ': 2, 'ュ': 2, 'ョ': 3,
+  'ヴ': 4,
 };
 
-// Map small kana to canonical Wikimedia Commons base character filenames
-export const SMALL_TO_BASE_KANA: Record<string, string> = {
-  'ャ': 'ヤ',
-  'ュ': 'ユ',
-  'ョ': 'ヨ',
-  'ァ': 'ア',
-  'ィ': 'イ',
-  'ゥ': 'ウ',
-  'ェ': 'エ',
-  'ォ': 'オ',
-};
-
-/**
- * Get the canonical Wikimedia Commons animated GIF URL for a Katakana character.
- */
-export function getWikimediaGifUrl(char: string): string {
-  const baseChar = SMALL_TO_BASE_KANA[char] || char;
-  const encoded = encodeURIComponent(baseChar);
-  return `https://commons.wikimedia.org/wiki/Special:FilePath/Katakana_${encoded}_stroke_order_animation.gif`;
+export function getStrokeCount(char: string): number {
+  return KATAKANA_STROKE_COUNTS[char] || 2;
 }
 
 /**
- * Estimate animation duration in milliseconds based on stroke count
+ * Returns estimated drawing duration in seconds for a given stroke count
  */
-export function getAnimationDurationMs(char: string): number {
-  const baseChar = SMALL_TO_BASE_KANA[char] || char;
-  const strokes = KATAKANA_STROKE_COUNTS[baseChar] || 2;
-  return Math.max(1800, strokes * 850 + 600);
+export function getAnimationDurationSeconds(char: string): number {
+  const strokes = getStrokeCount(char);
+  return strokes * 0.55 + 0.15;
 }
