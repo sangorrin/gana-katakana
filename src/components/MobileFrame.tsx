@@ -11,27 +11,35 @@ export type FrameMode = 'iphone' | 'android' | 'fluid';
 export const MobileFrame: React.FC<Props> = ({ children }) => {
   const [frameMode, setFrameMode] = useState<FrameMode>('iphone');
 
-  // Si se ejecuta dentro de la app nativa (APK de Android o IPA de iOS),
-  // se desactiva por completo el marco simulador para usar el 100% de la pantalla real.
+  // En la aplicación nativa (APK de Android, IPA de iOS) o en la web de producción publicada (GitHub Pages),
+  // se activa la vista completa para que se adapte de forma fluida y natural a móviles, tablets y ordenadores.
+  // El marco de teléfono solo se muestra en el preview de desarrollo (AI Studio).
   const isNative = Capacitor.isNativePlatform();
+  const isProduction = import.meta.env.PROD;
 
-  if (isNative) {
+  // Parámetro opcional ?simulator=true por si alguien quiere forzar la vista simulador
+  const hasSimulatorParam =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('simulator') === 'true';
+
+  if ((isNative || isProduction) && !hasSimulatorParam) {
     return (
-      <div className="min-h-screen bg-washi text-[#2C241E] flex flex-col selection:bg-[#E8DCC8] pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),16px)]">
-        <div className="w-full max-w-2xl mx-auto px-3 sm:px-4 py-1 sm:py-2 flex-1 flex flex-col">
+      <div className="min-h-screen bg-washi text-[#2C241E] flex flex-col selection:bg-[#E8DCC8] pt-[max(env(safe-area-inset-top),12px)] pb-[max(env(safe-area-inset-bottom),16px)]">
+        <div className="w-full max-w-2xl mx-auto px-3 sm:px-4 py-1 sm:py-3 flex-1 flex flex-col">
           {children}
         </div>
       </div>
     );
   }
 
-  // Vista en navegador web / AI Studio (simulador interactivo)
+  // Vista exclusiva para el entorno de desarrollo (preview de AI Studio):
+  // Marco interactivo con selector de teléfono móvil
   return (
     <div className="min-h-screen bg-[#1A1816] py-2 sm:py-6 px-1 sm:px-4 flex flex-col items-center justify-start text-[#2C241E]">
       {/* Selector de simulador para previsualización en PC / AI Studio */}
       <div className="hidden sm:flex items-center gap-2 mb-4 p-1.5 bg-[#2B2724] rounded-xl border border-[#453D38] text-xs text-[#C5B9AC] shadow-lg">
         <span className="text-[11px] font-medium px-2 text-[#9E9082]">
-          Vista simulador:
+          Vista simulador (solo desarrollo):
         </span>
 
         <button
@@ -74,7 +82,7 @@ export const MobileFrame: React.FC<Props> = ({ children }) => {
         </button>
       </div>
 
-      {/* Chasis simulador de teléfono en escritorio */}
+      {/* Chasis simulador de teléfono en escritorio de desarrollo */}
       <div
         className={`w-full transition-all duration-300 ${
           frameMode === 'fluid'
@@ -115,7 +123,7 @@ export const MobileFrame: React.FC<Props> = ({ children }) => {
             </div>
           )}
 
-          {/* Contenido scrolleable de la app */}
+          {/* Contenido de la app */}
           <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-2">
             {children}
           </div>
