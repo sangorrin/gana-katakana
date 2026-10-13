@@ -2,7 +2,7 @@ name: Build iOS App (iPhone & iPad)
 
 on:
   release:
-    types: [published, created]
+    types: [published]
   workflow_dispatch:
 
 jobs:

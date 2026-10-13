@@ -76,8 +76,25 @@ Al cabo de unos minutos, dentro de la sección **Assets** de esa misma Release e
 | **`GanaKatakana-android-debug.apk`** | Android | APK instalable directamente en cualquier dispositivo o emulador Android. |
 | **`GanaKatakana-ios-unsigned.ipa`** | iOS (iPhone / iPad) | Paquete IPA listo para instalar con herramientas como AltStore, Sideloadly o TrollStore. |
 | **`GanaKatakana-ios-app.zip`** | iOS | Paquete de la aplicación `.app` para simuladores o archivado en Xcode. |
+| **`GanaKatakana-web.zip`** | Web / PWA | Paquete web estático comprimido para desplegar en cualquier servidor o abrir localmente. |
 | **`Source code (zip)`** | Multiplataforma | Código fuente comprimido generado automáticamente por GitHub. |
 | **`Source code (tar.gz)`** | Multiplataforma | Código fuente en tarball generado automáticamente por GitHub. |
+
+---
+
+## 🌐 Publicación Gratuita en la Web con GitHub Pages
+
+La aplicación está diseñada para ser **100% estática y sin conexión**, por lo que se puede alojar de forma totalmente **gratuita** en **GitHub Pages**:
+
+### ¿Cómo activarlo en GitHub?
+1. Ve a tu repositorio en GitHub y haz clic en **Settings**.
+2. En la barra lateral izquierda, entra en **Pages**.
+3. En la sección **Build and deployment** > **Source**, selecciona **GitHub Actions**.
+4. ¡Listo! A partir de ese momento, el flujo de trabajo `.github/workflows/deploy-pages.yml` compilará y publicará la aplicación web automáticamente en cada subida a la rama `main` y con cada nueva Release.
+5. Tu app web estará accesible en vivo para todo el mundo en:
+   ```
+   https://<TU-USUARIO>.github.io/<TU-REPOSITORIO>/
+   ```
 
 ---
 

@@ -100,29 +100,40 @@ class SoundEngine {
     }
   }
 
+  private getAssetUrl(relPath: string): string {
+    const base = import.meta.env.BASE_URL || './';
+    const cleanBase = base.endsWith('/') ? base : `${base}/`;
+    const cleanRel = relPath.replace(/^\//, '');
+    return `${cleanBase}${cleanRel}`;
+  }
+
   private async initSprites() {
     if (this.spriteLoadingPromise) return this.spriteLoadingPromise;
 
     this.spriteLoadingPromise = (async () => {
       try {
+        const mapUrl = this.getAssetUrl('audio/sprite_map.json');
+        const femaleAudioUrl = this.getAssetUrl('audio/sprite_female.mp3');
+        const maleAudioUrl = this.getAssetUrl('audio/sprite_male.mp3');
+
         // 1. Fetch sprite map JSON
-        const res = await fetch('/audio/sprite_map.json');
+        const res = await fetch(mapUrl);
         if (res.ok) {
           this.spriteData = await res.json();
         }
 
         // 2. Prepare HTMLAudioElement fallback instances
-        this.femaleAudio = new Audio('/audio/sprite_female.mp3');
+        this.femaleAudio = new Audio(femaleAudioUrl);
         this.femaleAudio.preload = 'auto';
-        this.maleAudio = new Audio('/audio/sprite_male.mp3');
+        this.maleAudio = new Audio(maleAudioUrl);
         this.maleAudio.preload = 'auto';
 
         // 3. Pre-decode Web Audio buffers in background
         const ctx = this.getAudioContext();
         if (ctx) {
           const [femRes, maleRes] = await Promise.all([
-            fetch('/audio/sprite_female.mp3'),
-            fetch('/audio/sprite_male.mp3')
+            fetch(femaleAudioUrl),
+            fetch(maleAudioUrl)
           ]);
           if (femRes.ok) {
             const femAb = await femRes.arrayBuffer();
