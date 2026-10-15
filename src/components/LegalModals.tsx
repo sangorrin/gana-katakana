@@ -30,10 +30,13 @@ export const LegalModals: React.FC = () => {
         </p>
       </footer>
 
-      {/* In-app Modal Dialog */}
+      {/* In-app Modal Dialog (siempre centrado en el viewport visible con fixed) */}
       {openModal && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-xs animate-fadeIn">
-          <div className="relative w-full max-w-[360px] max-h-[85%] overflow-y-auto bg-[#FAF6EE] rounded-2xl nihonga-border nihonga-shadow p-4 text-[#2C241E]">
+        <div 
+          onClick={(e) => { if (e.target === e.currentTarget) setOpenModal(null); }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/65 backdrop-blur-xs animate-fadeIn"
+        >
+          <div className="relative w-full max-w-[360px] max-h-[85vh] overflow-y-auto bg-[#FAF6EE] rounded-2xl nihonga-border nihonga-shadow p-4 text-[#2C241E] my-auto">
             {/* Close button */}
             <button
               type="button"

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   ALL_KATAKANA_ITEMS, 
   KATAKANA_BASIC_LIST, 
@@ -38,16 +38,28 @@ const CATEGORY_TABS: { id: DeckCategory; label: string }[] = [
   { id: 'words', label: 'Tango' },
 ];
 
+/**
+ * Algoritmo Fisher-Yates para barajado verdaderamente aleatorio de cartas
+ */
+function shuffleCards<T>(items: T[]): T[] {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export const FlashcardsMode: React.FC = () => {
   const [deckFilter, setDeckFilter] = useState<DeckCategory>('katakana');
   const [isFlipped, setIsFlipped] = useState(false);
-  const [isChangingCard, setIsChangingCard] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [masteredIds, setMasteredIds] = useState<Set<string>>(new Set());
   const [reviewIds, setReviewIds] = useState<Set<string>>(new Set());
 
-  const deck = useMemo(() => {
+  // Generador del mazo base de cartas según la categoría seleccionada
+  const rawDeck = useMemo(() => {
     const cards: FlashcardItem[] = [];
 
     if (deckFilter === 'katakana') {
@@ -118,7 +130,17 @@ export const FlashcardsMode: React.FC = () => {
     return cards;
   }, [deckFilter]);
 
-  const currentCard = deck[currentIndex] || deck[0];
+  // El mazo siempre se inicializa ya barajado (nunca en orden alfabético A-I-U-E-O)
+  const [deck, setDeck] = useState<FlashcardItem[]>(() => shuffleCards(rawDeck));
+
+  // Cada vez que se cambia de pestaña / categoría, se baraja de verdad de forma inmediata
+  useEffect(() => {
+    setDeck(shuffleCards(rawDeck));
+    setCurrentIndex(0);
+    setIsFlipped(false);
+  }, [rawDeck]);
+
+  const currentCard = deck[currentIndex] || deck[0] || rawDeck[0];
 
   const handlePlayVoice = (e?: React.MouseEvent) => {
     if (e) {
@@ -140,21 +162,13 @@ export const FlashcardsMode: React.FC = () => {
   };
 
   const handleNext = () => {
-    setIsChangingCard(true);
     setIsFlipped(false);
-    setTimeout(() => {
-      setCurrentIndex(prev => (prev + 1) % deck.length);
-      setIsChangingCard(false);
-    }, 150);
+    setCurrentIndex(prev => (prev + 1) % deck.length);
   };
 
   const handlePrev = () => {
-    setIsChangingCard(true);
     setIsFlipped(false);
-    setTimeout(() => {
-      setCurrentIndex(prev => (prev - 1 + deck.length) % deck.length);
-      setIsChangingCard(false);
-    }, 150);
+    setCurrentIndex(prev => (prev - 1 + deck.length) % deck.length);
   };
 
   // Botón "¡Lo sé!": reproduce el chime de éxito y avanza a la siguiente tarjeta
@@ -187,13 +201,11 @@ export const FlashcardsMode: React.FC = () => {
     handleNext();
   };
 
+  // Barajado completo de todas las cartas del mazo actual mediante Fisher-Yates
   const handleShuffle = () => {
-    setIsChangingCard(true);
+    setDeck(shuffleCards(deck));
+    setCurrentIndex(0);
     setIsFlipped(false);
-    setTimeout(() => {
-      setCurrentIndex(Math.floor(Math.random() * deck.length));
-      setIsChangingCard(false);
-    }, 150);
   };
 
   const handleResetCurrentDeck = () => {
@@ -208,6 +220,7 @@ export const FlashcardsMode: React.FC = () => {
       deckCardIds.forEach(id => next.delete(id));
       return next;
     });
+    setDeck(shuffleCards(rawDeck));
     setCurrentIndex(0);
     setIsFlipped(false);
   };
@@ -223,14 +236,16 @@ export const FlashcardsMode: React.FC = () => {
   const isMastered = masteredIds.has(currentCard.id);
   const isReviewing = reviewIds.has(currentCard.id);
 
-  // Escala tipográfica dinámica para que las palabras largas nunca se rompan en dos líneas
+  // Escala tipográfica optimizada para ocupar generosamente el espacio sin provocar salto de línea
   const getFrontFontSize = (text: string, isWord: boolean) => {
-    if (!isWord) return 'text-6xl sm:text-7xl';
+    if (!isWord) {
+      return text.length === 1 ? 'text-8xl sm:text-9xl' : 'text-6xl sm:text-7xl';
+    }
     const len = text.length;
-    if (len <= 2) return 'text-4xl sm:text-5xl';
-    if (len <= 4) return 'text-3xl sm:text-4xl';
-    if (len <= 6) return 'text-2xl sm:text-3xl';
-    return 'text-xl sm:text-2xl';
+    if (len <= 2) return 'text-5xl sm:text-6xl';
+    if (len <= 4) return 'text-4xl sm:text-5xl';
+    if (len <= 6) return 'text-3xl sm:text-4xl';
+    return 'text-2xl sm:text-3xl';
   };
 
   return (
@@ -242,7 +257,7 @@ export const FlashcardsMode: React.FC = () => {
             <button
               key={tab.id}
               type="button"
-              onClick={() => { setDeckFilter(tab.id); setCurrentIndex(0); setIsFlipped(false); }}
+              onClick={() => { setDeckFilter(tab.id); }}
               className={`flex-1 min-w-0 py-1.5 px-1 rounded-lg text-xs font-medium text-center whitespace-nowrap transition-all cursor-pointer truncate ${
                 deckFilter === tab.id
                   ? 'bg-[#FAF6EE] text-[#2C241E] font-semibold shadow-xs border border-[#7A6B5B]/20'
@@ -277,8 +292,8 @@ export const FlashcardsMode: React.FC = () => {
             className="flex items-center gap-0.5 text-[#8C7A68] hover:text-[#2C241E] transition-colors cursor-pointer text-[11px]"
             title="Mezclar mazo"
           >
-            <Shuffle className="w-3 h-3" />
-            <span>Mezclar</span>
+            <Shuffle className="w-3 h-3 text-[#C53D32]" />
+            <span className="font-medium text-[#2C241E]">Mezclar</span>
           </button>
           <button
             type="button"
@@ -292,47 +307,46 @@ export const FlashcardsMode: React.FC = () => {
         </div>
       </div>
 
-      {/* 3D Flip Card Container: Altura adaptativa y proporciones seguras */}
+      {/* 3D Flip Card Container: Espacio interior aprovechado al máximo con proporciones elegantes */}
       <div className="perspective-1000 w-full flex items-center justify-center py-1">
         <div
+          key={currentCard.id}
           onClick={handleFlip}
-          className={`relative w-full max-w-[340px] h-[320px] sm:h-[340px] rounded-2xl ${
-            isChangingCard ? 'transition-none' : 'transition-transform duration-500'
-          } transform-style-preserve-3d cursor-pointer select-none nihonga-shadow ${
+          className={`relative w-full max-w-[350px] sm:max-w-[360px] h-[330px] sm:h-[350px] rounded-2xl transition-transform duration-500 transform-style-preserve-3d cursor-pointer select-none nihonga-shadow ${
             isFlipped ? 'rotate-y-180' : ''
           }`}
         >
           {/* CARA FRONTAL DE LA TARJETA */}
-          <div className="absolute inset-0 backface-hidden bg-washi rounded-2xl border-2 border-[#7A6B5B]/30 p-3.5 sm:p-4 flex flex-col items-center justify-between overflow-hidden">
+          <div className="absolute inset-0 backface-hidden bg-washi rounded-2xl border-2 border-[#7A6B5B]/30 p-4 sm:p-5 flex flex-col items-center justify-between overflow-hidden">
             <div className="w-full flex items-center justify-between">
-              <span className="text-[10px] font-sans-clean uppercase tracking-wider text-[#A69989]">
+              <span className="text-[10px] font-sans-clean uppercase tracking-wider text-[#A69989] font-medium">
                 {currentCard.categoryName}
               </span>
-              <span className="text-[10px] text-[#A69989]/70 font-medium">
+              <span className="text-[10px] text-[#A69989]/75 font-medium">
                 ¿Cómo se lee?
               </span>
             </div>
 
-            <div className="my-auto text-center w-full px-2 flex flex-col items-center justify-center">
-              <span className={`font-mincho font-bold text-[#2C241E] whitespace-nowrap block max-w-full overflow-hidden text-ellipsis ${
+            <div className="my-auto text-center w-full px-1 flex flex-col items-center justify-center">
+              <span className={`font-mincho font-bold text-[#2C241E] whitespace-nowrap block max-w-full overflow-hidden text-ellipsis leading-tight ${
                 getFrontFontSize(currentCard.frontText, currentCard.isWord)
               }`}>
                 {currentCard.frontText}
               </span>
-              <span className="text-[11px] text-[#A69989] mt-2 block">
+              <span className="text-xs text-[#A69989] mt-3 block font-medium">
                 Toca para girar ↺
               </span>
             </div>
 
             <div className="w-full flex items-center justify-between text-[11px] text-[#7A6B5B]">
-              <span className="capitalize">{currentCard.categoryName}</span>
+              <span className="capitalize font-medium">{currentCard.categoryName}</span>
               {isMastered && (
-                <span className="text-emerald-700 font-semibold flex items-center gap-1 text-[10px]">
+                <span className="text-emerald-700 font-semibold flex items-center gap-1 text-[11px]">
                   ✓ Dominado
                 </span>
               )}
               {isReviewing && (
-                <span className="text-amber-700 font-semibold flex items-center gap-1 text-[10px]">
+                <span className="text-amber-700 font-semibold flex items-center gap-1 text-[11px]">
                   ⟳ Repasar
                 </span>
               )}
@@ -340,7 +354,7 @@ export const FlashcardsMode: React.FC = () => {
           </div>
 
           {/* CARA TRASERA DE LA TARJETA */}
-          <div className="absolute inset-0 backface-hidden rotate-y-180 bg-[#FAF4E8] rounded-2xl border-2 border-[#C53D32]/40 p-3.5 sm:p-4 flex flex-col items-center justify-between overflow-hidden">
+          <div className="absolute inset-0 backface-hidden rotate-y-180 bg-[#FAF4E8] rounded-2xl border-2 border-[#C53D32]/40 p-4 sm:p-5 flex flex-col items-center justify-between overflow-hidden">
             <div className="w-full flex items-center justify-between">
               <span className="text-[10px] font-sans-clean uppercase tracking-wider text-[#C53D32] font-semibold">
                 Pronunciación
@@ -348,34 +362,53 @@ export const FlashcardsMode: React.FC = () => {
               <button
                 type="button"
                 onClick={handlePlayVoice}
-                className="w-7 h-7 rounded-full bg-[#F2E8D8] flex items-center justify-center text-[#C53D32] cursor-pointer"
+                className="w-8 h-8 rounded-full bg-[#F2E8D8] flex items-center justify-center text-[#C53D32] hover:bg-[#EBDDC8] transition-colors cursor-pointer shadow-2xs"
                 title="Escuchar de nuevo"
               >
-                <Volume2 className="w-3.5 h-3.5" />
+                <Volume2 className="w-4 h-4" />
               </button>
             </div>
 
             <div className="my-auto text-center flex flex-col items-center justify-center w-full py-1">
-              {currentCard.iconType && (
-                <div className="w-12 h-12 mb-1.5 rounded-xl bg-white/80 p-1 flex items-center justify-center shadow-xs border border-[#7A6B5B]/15 shrink-0">
-                  <KawaiiIllustration iconType={currentCard.iconType} size={38} />
-                </div>
+              {currentCard.isWord ? (
+                <>
+                  {currentCard.iconType && (
+                    <div className="w-16 h-16 sm:w-18 sm:h-18 mb-2 rounded-2xl bg-white/85 p-1 flex items-center justify-center shadow-xs border border-[#7A6B5B]/15 shrink-0">
+                      <KawaiiIllustration iconType={currentCard.iconType} size={48} />
+                    </div>
+                  )}
+
+                  <span className="font-mincho text-3xl sm:text-4xl font-bold text-[#2C241E] whitespace-nowrap max-w-full overflow-hidden text-ellipsis leading-tight">
+                    {currentCard.frontText}
+                  </span>
+
+                  <span className="text-sm sm:text-base font-bold text-[#8C5C2C] mt-1 tracking-wider uppercase">
+                    {currentCard.romaji}
+                  </span>
+
+                  <span className="text-sm font-semibold text-[#2C241E] mt-1.5 px-3 py-1 bg-white/85 rounded-lg border border-[#7A6B5B]/15 max-w-[95%] text-center line-clamp-2 shadow-xs">
+                    {currentCard.spanish}
+                  </span>
+                </>
+              ) : (
+                <>
+                  {/* Reverso para Seion, Youon, Dakuten y Extra: tamaño balanceado y legible */}
+                  <span className="font-mincho font-bold text-[#2C241E] whitespace-nowrap block max-w-full overflow-hidden text-ellipsis leading-none text-6xl sm:text-7xl">
+                    {currentCard.frontText}
+                  </span>
+
+                  <span className="text-2xl sm:text-3xl font-extrabold text-[#8C5C2C] mt-3 tracking-widest uppercase">
+                    {currentCard.romaji}
+                  </span>
+
+                  <span className="text-base sm:text-lg font-bold text-[#2C241E] mt-2.5 px-4 py-1.5 bg-white/90 rounded-xl border border-[#7A6B5B]/20 shadow-xs">
+                    {currentCard.spanish}
+                  </span>
+                </>
               )}
-
-              <span className="font-mincho text-2xl sm:text-3xl font-bold text-[#2C241E] whitespace-nowrap max-w-full overflow-hidden text-ellipsis">
-                {currentCard.frontText}
-              </span>
-
-              <span className="text-xs sm:text-sm font-semibold text-[#8C5C2C] mt-0.5 tracking-wider uppercase">
-                {currentCard.romaji}
-              </span>
-
-              <span className="text-xs font-medium text-[#2C241E] mt-1 px-2.5 py-0.5 bg-white/80 rounded-md border border-[#7A6B5B]/15 max-w-[95%] text-center line-clamp-2">
-                {currentCard.spanish}
-              </span>
             </div>
 
-            <span className="text-[10px] text-[#A69989]">
+            <span className="text-xs text-[#A69989] font-medium">
               Toca para volver al frente ↺
             </span>
           </div>
@@ -383,11 +416,11 @@ export const FlashcardsMode: React.FC = () => {
       </div>
 
       {/* Controles de acción */}
-      <div className="grid grid-cols-3 gap-2 max-w-[340px] mx-auto">
+      <div className="grid grid-cols-3 gap-2.5 max-w-[350px] sm:max-w-[360px] mx-auto">
         <button
           type="button"
           onClick={handleReview}
-          className="py-2 px-2.5 rounded-xl bg-[#EFE8DC] border border-[#B09E8B] text-[#5C4D3E] font-medium text-xs flex flex-col items-center justify-center gap-0.5 active:scale-95 transition-transform hover:bg-[#E5DCCF] cursor-pointer"
+          className="py-2.5 px-2.5 rounded-xl bg-[#EFE8DC] border border-[#B09E8B] text-[#5C4D3E] font-medium text-xs flex flex-col items-center justify-center gap-0.5 active:scale-95 transition-transform hover:bg-[#E5DCCF] cursor-pointer"
         >
           <RotateCcw className="w-3.5 h-3.5 text-amber-700" />
           <span>Repasar</span>
@@ -396,7 +429,7 @@ export const FlashcardsMode: React.FC = () => {
         <button
           type="button"
           onClick={handleFlip}
-          className="py-2 px-2.5 rounded-xl bg-[#FAF6EE] border border-[#7A6B5B]/30 text-[#2C241E] font-medium text-xs flex flex-col items-center justify-center gap-0.5 active:scale-95 transition-transform hover:border-[#7A6B5B] cursor-pointer"
+          className="py-2.5 px-2.5 rounded-xl bg-[#FAF6EE] border border-[#7A6B5B]/30 text-[#2C241E] font-medium text-xs flex flex-col items-center justify-center gap-0.5 active:scale-95 transition-transform hover:border-[#7A6B5B] cursor-pointer"
         >
           <RotateCw className="w-3.5 h-3.5 text-[#C53D32]" />
           <span>{isFlipped ? 'Frente' : 'Girar'}</span>
@@ -405,7 +438,7 @@ export const FlashcardsMode: React.FC = () => {
         <button
           type="button"
           onClick={handleMastered}
-          className="py-2 px-2.5 rounded-xl bg-[#2C5E3B] text-white font-medium text-xs flex flex-col items-center justify-center gap-0.5 active:scale-95 transition-transform shadow-xs hover:bg-[#234B2F] cursor-pointer"
+          className="py-2.5 px-2.5 rounded-xl bg-[#2C5E3B] text-white font-medium text-xs flex flex-col items-center justify-center gap-0.5 active:scale-95 transition-transform shadow-xs hover:bg-[#234B2F] cursor-pointer"
         >
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
           <span>¡Lo sé!</span>
@@ -413,7 +446,7 @@ export const FlashcardsMode: React.FC = () => {
       </div>
 
       {/* Navegación anterior / siguiente */}
-      <div className="flex items-center justify-between max-w-[340px] mx-auto px-2">
+      <div className="flex items-center justify-between max-w-[350px] sm:max-w-[360px] mx-auto px-2">
         <button
           type="button"
           onClick={handlePrev}
